@@ -31,7 +31,7 @@
     "bower.json"
   ],
   "dependencies": {
-    "ga-explorer-ui-components": "ssh://git@github.com:GeoscienceAustralia/explorer-search-components.git",
+    "ga-explorer-ui-components": "https://github.com/GeoscienceAustralia/explorer-ui-components.git",
     "angular": "1.4.7"
   }
 }
