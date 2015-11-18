@@ -1,6 +1,6 @@
 {
-  "name": "explorer-searches",
-  "version": "0.0.0",
+  "name": "explorer-search.components",
+  "version": "0.0.1",
   "description": "Geoscience Australia Explorer searches.",
   "keywords": [
     "angularjs",
