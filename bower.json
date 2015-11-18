@@ -1,0 +1,37 @@
+{
+  "name": "explorer-searches",
+  "version": "0.0.0",
+  "description": "Geoscience Australia Explorer searches.",
+  "keywords": [
+    "angularjs",
+    "javascript",
+    "leaflet",
+    "maps"
+  ],
+  "main": [
+    "dist/searches.js",
+    "dist/searches.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GeoscienceAustralia/explorer-search-components"
+  },
+  "authors": [
+    "Geoscience Australia"
+  ],
+  "license": "https://github.com/GeoscienceAustralia/explorer-search-components/LICENCE",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "src",
+    "test",
+    "tests",
+    "gulpfile.js",
+    "package.json",
+    "bower.json"
+  ],
+  "dependencies": {
+    "ga-explorer-ui-components": "ssh://git@github.com:GeoscienceAustralia/explorer-search-components.git",
+    "angular": "1.4.7"
+  }
+}

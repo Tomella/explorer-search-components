@@ -1,0 +1,21 @@
+<div class="searchesContainer">
+	<div ng-hide="data.search">
+		<span class="searchesItems" ng-transclude></span>
+		<span class="dropdown clearfix">
+			<div class="btn-group" role="group">
+				<div class="btn-group" role="group">
+					<button class="btn btn-default dropdown-toggle" type="button" id="searchesDropdownMenu3" 
+							tooltip="Select from a range of search engines"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		      			<i class="fa fa-align-justify"></i>
+   					</button>
+   					<ul class="dropdown-menu" aria-labelledby="searchesDropdownMenu3">
+	        			<li class="dropdown-header">Select type of search</li>
+	    	    		<li ng-repeat="search in state.searches"><button class="undecorated" ng-click="switch(search)" ng-class="{searchesStrong:search.active}">{{search.label}}</button></li>
+   					</ul>
+   				</div>
+   			</div>
+		</span>
+	</div>
+	<div class="searchesLastSearchContainer" exp-last-search ng-show="data.search"></div>
+</div>

@@ -1,0 +1,11 @@
+<div class="btn-group pull-left radSearch" style="width:27em;opacity:0.9">
+	<div class="input-group">
+		<input type="text" ng-autocomplete ng-model="values.from.description" options='{country:"au"}'
+					size="32" title="Select a locality to pan the map to." class="form-control" aria-label="...">
+		<div class="input-group-btn">
+			<button ng-click="zoom(false)" exp-ga="['send', 'event', 'radwaste', 'click', 'zoom to location']"
+				class="btn btn-default"
+				title="Pan and potentially zoom to location."><i class="fa fa-search"></i></button>
+		</div>
+	</div>
+</div>

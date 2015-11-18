@@ -1,0 +1,24 @@
+<div style="padding:3px;padding-left:10px;position:relative" ng-class-even="'even'" ng-class-odd="'active'">
+	<div class="pull-left">
+			<div style="font-size:120%;padding-bottom:7px">Result from: {{data.search.from}}</div>
+			<div ng-if="data.search.type == 'GeoJSONPoint'">
+				{{data.search.name}} (Lat {{data.search.data.geometry.coordinates[0] | number : 5}}&#176; Lng  {{data.search.data.geometry.coordinates[1] | number : 5}}&#176;)
+			</div>
+			<div ng-if="data.search.type == 'GeoJSONUrl'">
+				{{data.search.name}} 
+			</div>
+			<div class="pull-right">
+				<button class="undecorated" ng-click="dismiss()">
+					<i class="fa fa-cross"></i>
+				</button>
+			</div>
+	</div>
+	<div style="padding-left:10px" class="pull-right">
+		<button class="undecorated" class="featureLink" title="Show on map" 
+			ng-click="toggle()"><i class="fa fa-lg" ng-class="{'fa-eye-slash':(!data.search.displayed), 'fa-eye':data.search.displayed}"></i></button>
+		<button class="undecorated" class="featureLink" title="Pan map to region" 
+			ng-click="pan()"><i class="fa fa-flag fa-lg"></i></button>							
+		<button class="undecorated" class="featureLink" title="Clear search/New search" 
+			ng-click="close()"><i class="fa fa-close fa-lg"></i></button>							
+	</div>
+</div>

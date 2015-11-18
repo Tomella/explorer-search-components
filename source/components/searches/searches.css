@@ -1,0 +1,38 @@
+.searchesStrong {
+	font-weight:bold;
+}
+
+.searchesContainer {
+	display:inline-block;
+	width:35em;
+}
+
+.searchesContainer .dropdown-menu li {
+	padding-left:5px;
+	padding-right:5px;
+	white-space:nowrap;
+}
+
+.searchesContainer ul.dropdown-menu {
+	margin-top:4px;
+}
+
+.searchesContainer .btn:disabled {
+    pointer-events: all;
+}
+
+
+.searchesContainer .tooltip-inner {
+    max-width: 350px;
+    /* If max-width does not work, try using width instead */
+    width:250px;
+}
+
+.searchesLastSearchContainer {
+	background-color: white;
+	border-radius: 4px;
+	border: 1px solid lightgray;
+	position: absolute;
+	top: 0px;
+	box-shadow: 5px 5px 5px gray;
+}

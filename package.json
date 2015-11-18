@@ -1,0 +1,46 @@
+{
+  "name": "ExplorerSearches",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "Explorer searches components.",
+  "license" : "Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)",
+  "keywords": [
+    "Explorer",
+    "Map",
+    "Searches"
+  ],
+  "author": {
+    "name": "Geoscience Australia",
+    "url": "http://www.ga.gov.au/"
+  },
+  "homepage": "http://www.ga.gov.au/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:GeoscienceAustralia/explorer-search-components.git"
+  },
+  "scripts": {
+    "tsd": "tsd install"
+  },
+  "devDependencies": {
+    "add-stream": "^1.0.0",
+    "bower": "^1.5.3",
+    "compression": "^1.5.1",
+    "express": "^4.13.1",
+    "gulp": "^3.8.11",
+    "gulp-angular-templatecache": "^1.6.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-concat-css": "^2.2.0",
+    "gulp-header": "^1.7.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-tsd": "0.0.4",
+    "gulp-tslint": "^3.3.0-beta",
+    "gulp-typedoc": "^1.2.1",
+    "gulp-typescript": "^2.8.3",
+    "gulp-uglify": "^1.2.0",
+    "request": "^2.58.0",
+    "tsd": "^0.6.5",
+    "yargs": "^3.15.0"
+  },
+  "bundleDependencies": [],
+  "private": true
+}
