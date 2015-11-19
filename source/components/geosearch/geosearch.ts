@@ -5,7 +5,6 @@
  */
 
 declare var google: any;
-declare var Cesium: any;
 
 interface IGeoSearchResults {
     address: string;
@@ -13,7 +12,7 @@ interface IGeoSearchResults {
     lon: number;
 }
 
-(function(angular: ng.IAngularStatic, google:any, Cesium:any) {
+(function(angular: ng.IAngularStatic, google:any) {
 
 'use strict';
   
@@ -131,4 +130,4 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
     };
 }]);
     
-})(angular, google, Cesium);
+})(angular, google);

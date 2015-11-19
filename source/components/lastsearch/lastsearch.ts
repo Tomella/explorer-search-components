@@ -23,7 +23,7 @@ interface LastSearchData {
  */
 angular.module('exp.search.lastsearch', [])
 
-.directive('geoLastSearch', ['$document', 'lastSearchService',
+.directive('expLastSearch', ['$document', 'lastSearchService',
           function($document: any, lastSearchService: LastSearchService) {
   return {
     restrict : 'AE',
@@ -101,7 +101,7 @@ angular.module('exp.search.lastsearch', [])
       data.search = search;
           
       if (search.show) {
-        drawing.show();
+        drawing.draw();
       }
    });
    

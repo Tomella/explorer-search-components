@@ -3,9 +3,7 @@
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
 
-declare var Cesium:any;
-
-(function(angular: ng.IAngularStatic, Cesium :any) {
+(function(angular: ng.IAngularStatic) {
 'use strict';   
 
 angular.module("exp.search.lgasearch", [])
@@ -108,13 +106,13 @@ function LgasearchServiceProvider() : any {
                 
 				var polygon: GeoJSON.Polygon = {
 					type: "Polygon",
-					coordinates: [
+					coordinates: [[
 						[bbox.xMin, bbox.yMin],
 						[bbox.xMin, bbox.yMax],
 						[bbox.xMax, bbox.yMax],
 						[bbox.xMax, bbox.yMin],
 						[bbox.xMin, bbox.yMin]
-					]
+					]]
 				};
                 
                 var broadcastData: Searches.ISearchPerformed = {
@@ -139,4 +137,4 @@ function LgasearchServiceProvider() : any {
         return service;
     }];
 }
-})(angular, Cesium);
+})(angular);

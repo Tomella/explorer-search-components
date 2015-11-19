@@ -10,7 +10,7 @@
 
 angular.module("exp.search.searches", [])
 
-.directive('searchesSearches', function() {
+.directive('searchSearches', function() {
     return {
         restrict : "AE",
         replace : true,
@@ -48,12 +48,12 @@ angular.module("exp.search.searches", [])
     };
 }) 
 
-.directive('searchesSearch', function() {
+.directive('searchSearch', function() {
     return {
         replace : true,
         template:"<div ng-transclude ng-show='active'></div>",
         transclude:true,
-        require : "^searchesSearches",
+        require : "^searchSearches",
         scope : {
             label : "@",
             active : "=default"

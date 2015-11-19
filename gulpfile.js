@@ -90,7 +90,15 @@ gulp.task('watch', function() {
     gulp.watch('source/components/**/*.css', ['concatCss']);
     gulp.watch('source/implementations/cesium/**/*.ts', ['cesiumScripts']);
     gulp.watch('source/implementations/leaflet/**/*.ts', ['leafletScripts']);
+    gulp.watch('dist/*.js', ['copyToWells']);
     //gulp.watch('scss/*.scss', ['sass']);
+});
+
+gulp.task('copyToWells', function() {
+// On Larry's machine he has it relative to a working project served by nodejs and can do updates on the fly.
+// This task can be set up to do running integration testing.
+//  gulp.src(['dist/searches.js', 'dist/searches-leaflet.js'])
+//    .pipe(gulp.dest('../explorer-wells-surveys/src/main/webapp/bower_components/explorer-search-components/dist'))
 });
 
 gulp.task('concatCss', function () {
@@ -118,7 +126,7 @@ gulp.task('build', ['lint', 'scripts', 'cesiumScripts', 'leafletScripts', 'conca
 gulp.task('default', ['build', 'watch']);
 
 function prepareTemplates() {
-    return gulp.src('sources/components/**/*.html')
-        .pipe(templateCache('templates.ts', {root:"searches", module:"exp.searches.templates", standalone : true,
+    return gulp.src('source/components/**/*.html')
+        .pipe(templateCache('templates.ts', {root:"searches", module:"exp.search.templates", standalone : true,
         templateHeader:'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache:any) {'}));
 }

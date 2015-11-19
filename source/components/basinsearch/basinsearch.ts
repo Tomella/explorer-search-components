@@ -4,13 +4,12 @@
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
 
-declare var SearchMapping: any;
 
-(function(angular: ng.IAngularStatic, Cesium: any) {
+(function(angular: ng.IAngularStatic) {
 
 	'use strict';
 
-	angular.module("exp.search.basinsearch", [])
+	angular.module("exp.search.basinsearch", ['exp.search.map.service'])
 
 		.directive("basinSearch", ['$log', '$timeout', 'basinService', function($log: any, $timeout: any, basinService: any) {
 			return {
@@ -80,17 +79,26 @@ declare var SearchMapping: any;
 	function BasinsearchServiceProvider() : any {
 		var basinsUrl: string = "service/basinsearch/basins",
 			basinShapeUrl: string = "service/basinsearch/basin/",
+			baseUrl: string = '',
 			basinData: any = {};
 
 		this.setReferenceUrl = function(url: string) {
 			basinsUrl = url;
 		};
 
+		this.setShapeUrl = function(url: string) {
+			basinShapeUrl = url;
+		};
+		
+		this.setBaseUrl = function(url: string) {
+			baseUrl = url;
+		};
+
 		this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService', 
 				function basinServiceFactory($q: any, $rootScope:any, $timeout: any, httpData: any, searchMapService: Searches.ISearchMapService) {
 			var service: any = {
 				load: function() {
-					return httpData.get(basinsUrl, { cache: true }).then(function(response: any) {
+					return httpData.get(baseUrl + basinsUrl, { cache: true }).then(function(response: any) {
 						basinData.basins = response.data.basins;
 						return basinData;
 					});
@@ -100,19 +108,19 @@ declare var SearchMapping: any;
 					var bbox: any = region.bbox;
 					var polygon: GeoJSON.Polygon = {
 						type: "Polygon",
-						coordinates: [
+						coordinates: [[
 							[bbox.xMin, bbox.yMin],
 							[bbox.xMin, bbox.yMax],
 							[bbox.xMax, bbox.yMax],
 							[bbox.xMax, bbox.yMin],
 							[bbox.xMin, bbox.yMin]
-						]
+						]]
 					};
 					
 					var broadcastData: Searches.ISearchPerformed = {
                       	from: "Basins search",
                       	type: "GeoJSONUrl",
-                      	url: '/explorer-searches-services/service/basinsearch/basin/' + region.id,
+                      	url: baseUrl + basinShapeUrl + region.id,
 			 			pan: pan,
 						show: true,
                         name: region.name,
@@ -132,4 +140,4 @@ declare var SearchMapping: any;
 		}];
 	}
 
-})(angular, SearchMapping);
+})(angular);
