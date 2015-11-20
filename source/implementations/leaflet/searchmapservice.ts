@@ -51,6 +51,7 @@ module Drawing {
 		
 		this.options.$http.get(this.data.url).then(function(response: any) {
 			this.fadeLayer = L.geoJson(response.data, {
+				clickable: false,
     			style: function (feature: any) {
         			return {
 						color: "red",
