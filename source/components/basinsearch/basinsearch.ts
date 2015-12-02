@@ -89,12 +89,12 @@
 		this.setShapeUrl = function(url: string) {
 			basinShapeUrl = url;
 		};
-		
+
 		this.setBaseUrl = function(url: string) {
 			baseUrl = url;
 		};
 
-		this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService', 
+		this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService',
 				function basinServiceFactory($q: any, $rootScope:any, $timeout: any, httpData: any, searchMapService: Searches.ISearchMapService) {
 			var service: any = {
 				load: function() {
@@ -116,7 +116,7 @@
 							[bbox.xMin, bbox.yMin]
 						]]
 					};
-					
+
 					var broadcastData: Searches.ISearchPerformed = {
                       	from: "Basins search",
                       	type: "GeoJSONUrl",
@@ -126,7 +126,7 @@
                         name: region.name,
                         polygon: polygon
 					};
-					
+
                     $rootScope.$broadcast('search.performed', broadcastData);
 
 					pan();

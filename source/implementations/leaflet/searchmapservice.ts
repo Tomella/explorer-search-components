@@ -16,22 +16,22 @@ module Drawing {
     destroy(): void;
   }
 
-    
+
   export enum DataType {GeoJSONPoint, GeoJSONUrl};
-    
+
   export class GeoJsonUrlHandler implements Drawing {
     private fadeLayer: any;
     private timeout: any;
     private data: any;
     private map: any;
     private options: any;
-    
+
     constructor(map:any, data: any, options: any) {
       this.map = map;
       this.data = data;
       this.options = options;
-    }  
-    
+    }
+
     draw(): void {
 		var opacity = 1;
 		var fade = () => {
@@ -43,12 +43,12 @@ module Drawing {
 				this.timeout = this.options.$timeout(fade, 1000);
 			}
 		};
-		
+
 		if(this.fadeLayer) {
 			this.options.$timeout.cancel(this.timeout);
 			this.map.removeLayer(this.fadeLayer);
-		}			
-		
+		}
+
 		this.options.$http.get(this.data.url).then(function(response: any) {
 			this.fadeLayer = L.geoJson(response.data, {
 				clickable: false,
@@ -60,55 +60,62 @@ module Drawing {
     			}
 			}).addTo(this.map);
 			this.timeout = this.options.$timeout(fade, 5000);
-		}.bind(this));			
-    } 
-	
+		}.bind(this));
+    }
+
     erase(): void {
       if (this.map && this.fadeLayer) {
         this.map.removeLayer(this.fadeLayer);
         this.fadeLayer = null
       }
-    } 
-    
+    }
+
     destroy(): void {
       this.erase();
       this.map = this.data = null;
     }
-    
+
     isDrawn(): boolean {
       return !this.fadeLayer;
     }
   }
-  
-  // TODO: No one has asked for it yet. 
+
+  // TODO: No one has asked for it yet.
   export class GeoJsonPointHandler implements Drawing {
 	  private viewer: any;
 	  private container: any;
 	  private entities: any = null;
 	  private options: any = {};
-	  
+    private marker: any;
+
 	  constructor(viewer: any, data: any, options: any) {
 	    if (options) {
-		    this.options = options; 
+		    this.options = options;
 	    }
 	    this.viewer = viewer;
 	    this.container = data;
     }
-   
+
   	draw(): void {
-		 // Tadah
+      var coord = this.container.data.geometry.coordinates;
+		  this.marker = L.marker([coord[1], coord[0]]).addTo(this.viewer)
+        .bindPopup(this.container.name + "<br/>Lat/lng: " + coord[1] + "&deg;, " + coord[0] + "&deg;");
     }
-	
+
     isDrawn(): boolean {
-      return false;
+      return this.marker;
     }
-  
+
   	erase(): void {
-	}
-	
-	destroy(): void {
-	  this.erase();
-	}	  
+      if(this.marker) {
+        this.viewer.removeLayer(this.marker);
+        this.marker = null;
+      }
+	  }
+
+	  destroy(): void {
+	    this.erase();
+	  }
   }
 }
 
@@ -127,22 +134,22 @@ angular.module('exp.search.map.service', [])
 		lgaTimeout: any,
 		lgaLayer: any,
 		lgaFadeLayer: any;
-	
+
 	mapService.getMap().then(function(leafletMap: any) {
 		map = leafletMap;
-	});	
-	
+	});
+
 	return {
 		getDrawer : function(search: Searches.ISearchPerformed) {
 			return drawingFactory(map, search);
 		},
-		
+
 		goTo: function(polygon: GeoJSON.Polygon) {
 			var xMax  = -1000;
 			var xMin  = 1000;
 			var yMin  = 1000;
 			var yMax  = -1000;
-			
+
 			if(polygon.coordinates) {
 				polygon.coordinates.forEach(function (value: GeoJSON.Position[]) {
 					if(value) {
@@ -163,29 +170,29 @@ angular.module('exp.search.map.service', [])
 					}
 				});
 			}
-			
+
 			mapService.getMap().then(function(map: any) {
 				map.fitBounds([
-				   [yMin, xMin], 
+				   [yMin, xMin],
 				   [yMax, xMax]
 				]);
-			});				
+			});
 		}
 	};
-	
+
 	function drawingFactory(map: any, search: Searches.ISearchPerformed): Drawing.Drawing {
 		var options = {
 			$timeout: $timeout,
 			$http: $http
 		};
-		
+
 		if (search.type == "GeoJSONUrl") {
 			return new Drawing.GeoJsonUrlHandler(map, search, options);
 		} else if (search.type == "GeoJSONPoint") {
 			return new Drawing.GeoJsonPointHandler(map, search, options);
 		}
 	}
-	
+
 }]);
 
 })(angular, L);

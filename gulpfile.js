@@ -24,7 +24,7 @@ gulp.task('lint', function() {
 });
 
 // Concatenate & Minify JS
-gulp.task('scripts', function() {    
+gulp.task('scripts', function() {
     return gulp.src('source/components/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())
@@ -43,7 +43,7 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('cesiumScripts', function() {  
+gulp.task('cesiumScripts', function() {
     return gulp.src('source/implementations/cesium/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())
@@ -62,7 +62,7 @@ gulp.task('cesiumScripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('leafletScripts', function() {  
+gulp.task('leafletScripts', function() {
     return gulp.src('source/implementations/leaflet/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())
@@ -98,7 +98,7 @@ gulp.task('copyToWells', function() {
 // On Larry's machine he has it relative to a working project served by nodejs and can do updates on the fly.
 // This task can be set up to do running integration testing.
 //    gulp.src(['dist/searches.js', 'dist/searches-leaflet.js'])
-//        .pipe(gulp.dest('../explorer-wells-surveys/src/main/webapp/bower_components/explorer-search-components/dist'))
+//        .pipe(gulp.dest('../wells/dist/bower_components/explorer-search-components/dist'))
 });
 
 gulp.task('concatCss', function () {
