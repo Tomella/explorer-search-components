@@ -103,7 +103,7 @@ angular.module('exp.search.lastsearch', [])
     
     $rootScope.$on('search.performed', listener);
     
-    function listener(event, search) {
+    function listener(event: any, search: any) {
       if (drawing) {
         drawing.destroy();
       }
