@@ -69,7 +69,7 @@ var Drawing;
         return GeoJsonUrlHandler;
     })();
     Drawing.GeoJsonUrlHandler = GeoJsonUrlHandler;
-    // TODO: No one has asked for it yet. 
+    // TODO: No one has asked for it yet.
     var GeoJsonPointHandler = (function () {
         function GeoJsonPointHandler(viewer, data, options) {
             this.entities = null;
@@ -81,12 +81,18 @@ var Drawing;
             this.container = data;
         }
         GeoJsonPointHandler.prototype.draw = function () {
-            // Tadah
+            var coord = this.container.data.geometry.coordinates;
+            this.marker = L.marker([coord[1], coord[0]]).addTo(this.viewer)
+                .bindPopup(this.container.name + "<br/>Lat/lng: " + coord[1] + "&deg;, " + coord[0] + "&deg;");
         };
         GeoJsonPointHandler.prototype.isDrawn = function () {
-            return false;
+            return this.marker;
         };
         GeoJsonPointHandler.prototype.erase = function () {
+            if (this.marker) {
+                this.viewer.removeLayer(this.marker);
+                this.marker = null;
+            }
         };
         GeoJsonPointHandler.prototype.destroy = function () {
             this.erase();

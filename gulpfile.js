@@ -24,7 +24,7 @@ gulp.task('lint', function() {
 });
 
 // Concatenate & Minify JS
-gulp.task('scripts', function() {    
+gulp.task('scripts', function() {
     return gulp.src('source/components/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())
@@ -43,7 +43,7 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('cesiumScripts', function() {  
+gulp.task('cesiumScripts', function() {
     return gulp.src('source/implementations/cesium/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())
@@ -62,7 +62,7 @@ gulp.task('cesiumScripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('leafletScripts', function() {  
+gulp.task('leafletScripts', function() {
     return gulp.src('source/implementations/leaflet/**/*.ts')
         .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourceMaps.init())

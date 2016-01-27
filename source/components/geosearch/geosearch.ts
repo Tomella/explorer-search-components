@@ -15,7 +15,7 @@ interface IGeoSearchResults {
 (function(angular: ng.IAngularStatic, google:any) {
 
 'use strict';
-  
+
 
 angular.module('exp.search.geosearch', ['ngAutocomplete'])
 
@@ -29,7 +29,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
             $scope.values = {
                 from:{}
             };
-            
+
             $scope.zoom = function(marker : any) {
                 var promise:any,
                     promises:any = [];
@@ -37,7 +37,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                 if(!$scope.values.from.description) {
                     return;
                 }
-                
+
                 googleService.getAddressDetails($scope.values.from.description, $scope).then(function(results: IGeoSearchResults) {
                     var feature: GeoJSON.Feature = {
                         type: 'Feature',
@@ -49,21 +49,21 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                             name: results.address
                         }
                     };
-                    
+
                     var broadcastData: Searches.ISearchPerformed = {
                         from: "Google search",
                         name: results.address,
                         type: "GeoJSONPoint",
                         pan: function() {
-                          pan();  
+                          pan();
                         },
-                        data: feature            
-                    };                    
+                        data: feature
+                    };
                     var xMin = results.lon - SPREAD_DEGREES;
                     var xMax = results.lon + SPREAD_DEGREES;
                     var yMin = results.lat - SPREAD_DEGREES;
                     var yMax = results.lat + SPREAD_DEGREES;
-                    
+
 					var polygon: GeoJSON.Polygon = {
 						type: "Polygon",
 						coordinates: [[
@@ -74,7 +74,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
 							[xMin, yMin]
 						]]
 					};
-                    
+
                     $log.debug('Received the results for from');
                     $scope.values.from.results = results;
                     if(results) {
@@ -84,12 +84,12 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                     // Hide the dialog.
                     $scope.item = '';
                     return results;
-                    
+
                     function pan() {
                         searchMapService.goTo(polygon);
                     }
                 }, function(error:any) {
-                    $log.debug('Failed to complete the from lookup.');                          
+                    $log.debug('Failed to complete the from lookup.');
                 })
             };
         }]
@@ -101,7 +101,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
         service:any;
     try {
         service = new google.maps.places.AutocompleteService(null, {
-                        types: ['geocode'] 
+                        types: ['geocode']
                     });
     } catch(e) {
         $log.debug("Catching google error that manifests itself when debugging in Firefox only");
@@ -125,9 +125,9 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                     });
                 }
             });
-            return deferred.promise;   
+            return deferred.promise;
         }
     };
 }]);
-    
+
 })(angular, google);
