@@ -8,7 +8,7 @@
 (function(angular: ng.IAngularStatic) {
 'use strict';
 
-angular.module("exp.search.searches", [])
+angular.module("exp.search.searches", ['exp.search.lastsearch'])
 
 .directive('searchSearches', function() {
     return {

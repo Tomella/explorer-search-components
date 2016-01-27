@@ -76,7 +76,7 @@ angular.module("exp.search.lgasearch", [])
 function LgasearchServiceProvider() : any {
     var statesUrl:string = "service/lgasearch/states",
         lgasUrl:string = "service/lgasearch/lgas",
-        lgaShapeUrl:string = "service/lgasearch/lga/",
+        lgaShapeUrl:string = "/explorer-cossap-services/service/lgasearch/lga/",
         lgaData:any = {},
         lgaTimeout:any,
         lgaLayer:any,
@@ -86,6 +86,10 @@ function LgasearchServiceProvider() : any {
     
     this.setReferenceUrl = function(url:string) {
         lgasUrl = url;
+    };  
+    
+    this.setShapeUrl = function(url:string) {
+        lgaShapeUrl = url;
     };  
     
     this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService', function lgaServiceFactory($q:any, $rootScope:any, $timeout:any, httpData:any, searchMapService:any) {
@@ -118,7 +122,7 @@ function LgasearchServiceProvider() : any {
                 var broadcastData: Searches.ISearchPerformed = {
                    from: "LGA search",
                    type: "GeoJSONUrl",
-                   url: '/explorer-searches-services/service/basinsearch/basin/' + region.id,
+                   url: lgaShapeUrl + region.id + '/geojson',
 			 	   pan: pan,
 			       show: true,
                    name: region.name,

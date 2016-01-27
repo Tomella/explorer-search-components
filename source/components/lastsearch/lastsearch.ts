@@ -30,7 +30,7 @@ angular.module('exp.search.lastsearch', [])
     transclude : true,
     templateUrl: 'searches/lastsearch/lastsearch.html',
     link : function(scope:any, element:any) {
-      scope.data = lastSearchService.data;
+      scope.data = lastSearchService.data();
       
       $document.on("keyup", keyupHandler);
 
@@ -63,49 +63,63 @@ angular.module('exp.search.lastsearch', [])
   };
 }]) 
 
-.factory('lastSearchService', ['$log', '$rootScope', 'searchMapService', function ($log: ng.ILogService, $rootScope: ng.IRootScopeService, searchMapService: any) {
-    var data:LastSearchData = {
-      search: null
+.provider('lastSearchService', [function () {
+    var listen = true;
+    
+    this.noListen = function() {
+      listen = false;
+    }
+    
+    this.$get = ['$log', '$rootScope', 'searchMapService', function ($log: ng.ILogService, $rootScope: ng.IRootScopeService, searchMapService: any) {
+    
+      var data:LastSearchData = {
+        search: null
+      };
+      var drawing: any;
+    
+      var service = {
+        show: function() {
+          drawing.draw();
+        },
+    
+        hide: function() {
+          if(drawing) {
+            drawing.erase();
+          }       
+        },
+        data: function() {
+          return data;
+        },
+      
+        isShowing: function() {
+          drawing.isDrawn();
+        },
+      
+        clear: function (){
+          this.hide();
+          data.search = null;
+        }
     };
-    var drawing: any;
     
-    var service = {
-      show: function() {
-        drawing.draw();
-      },
+    $rootScope.$on('search.performed', listener);
     
-      hide: function() {
-        if(drawing) {
-          drawing.erase();
-        }       
-      },
-      data: function() {
-        return data;
-      },
-      
-      isShowing: function() {
-        drawing.isDrawn();
-      },
-      
-      clear: function (){
-        this.hide();
-        data.search = null;
-      }
-   };
-   
-   $rootScope.$on('search.performed', function(event : any, search : Searches.ISearchPerformed) {
+    function listener(event, search) {
       if (drawing) {
-         drawing.destroy();
+        drawing.destroy();
       }
       drawing = searchMapService.getDrawer(search);
-      data.search = search;
+      if(listen) {
+        data.search = search;
+      }
           
       if (search.show) {
+        search.displayed = true;
         drawing.draw();
       }
-   });
+    };
    
-   return service;
+    return service;
+  }];
 }]);
 
 })(angular);

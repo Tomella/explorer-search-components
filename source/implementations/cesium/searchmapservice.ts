@@ -176,20 +176,20 @@ angular.module('exp.search.map.service', [])
 .factory('searchMapService', ['viewerService', function(viewerService: any) {
 	var viewer: any = null;
 	
-	viewerService.getViewer(function(cesiumViewer: any) {
+  viewerService.getViewer().then(function(cesiumViewer: any) {
 		viewer = cesiumViewer;
-	});	
+  }); 
 	
 	return {
 		getDrawer : function(search : Searches.ISearchPerformed) {
-			return CesiumDrawing.drawingFactory(viewer, search);
-		},
+      return CesiumDrawing.drawingFactory(viewer, search);
+  	},
 		
 		goTo: function(polygon: GeoJSON.Polygon) {
 			var xMax  = -1000;
 			var xMin  = 1000;
 			var yMin  = 1000;
-			var yMax  = 1000;
+			var yMax  = -1000;
 			
 			if(polygon.coordinates) {
 				polygon.coordinates.forEach(function (value: GeoJSON.Position[]) {
