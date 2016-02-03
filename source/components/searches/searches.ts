@@ -5,7 +5,7 @@
  */
 
 
-(function(angular: ng.IAngularStatic) {
+module explorer.search {
 'use strict';
 
 angular.module("exp.search.searches", ['exp.search.lastsearch'])
@@ -50,7 +50,7 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
 
 .directive('searchSearch', function() {
     return {
-        replace : true,
+        //replace : true,
         template:"<div ng-transclude ng-show='active'></div>",
         transclude:true,
         require : "^searchSearches",
@@ -64,4 +64,4 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
     };
 });
     
-})(angular);
+}
