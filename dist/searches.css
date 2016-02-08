@@ -1,8 +1,5 @@
 
 
-.lgaLists .stateList:last-child {
-  border-bottom: 5px solid white;
-}
 .searchesStrong {
   font-weight: bold;
 }
@@ -39,4 +36,7 @@
   position: absolute;
   top: 0px;
   box-shadow: 5px 5px 5px gray;
+}
+.lgaLists .stateList:last-child {
+  border-bottom: 5px solid white;
 }
