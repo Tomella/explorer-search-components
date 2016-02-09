@@ -10,16 +10,16 @@ module explorer.search {
 
 angular.module("exp.search.searches", ['exp.search.lastsearch'])
 
-.directive('searchSearches', function() {
+.directive('searchSearches', ['searchService', function(searchService: any) {
     return {
-        restrict : "AE",
-        replace : true,
-        transclude:true,
-        templateUrl : 'searches/searches/searches.html',
-        scope : {
+        restrict: "AE",
+        replace: true,
+        transclude: true,
+        templateUrl: 'searches/searches/searches.html',
+        scope: {
             name : "@"
         },
-        controller : ['$scope', function($scope:any) {
+        controller: ['$scope', function($scope:any) {
             $scope.state = {
                 showSearchButton : true,
                 searches : []
@@ -42,26 +42,41 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
                 $scope.state.searches.forEach(function (item:any) {
                     item.active = false;
                 });
-                data.active = true;                        
+                data.active = true;
+                if($scope.name) {
+                    searchService.getSearches()[$scope.name] = data;
+                }                        
             }
         }]
     };
-}) 
+}]) 
 
 .directive('searchSearch', function() {
     return {
         //replace : true,
         template:"<div ng-transclude ng-show='active'></div>",
         transclude:true,
-        require : "^searchSearches",
-        scope : {
-            label : "@",
-            active : "=default"
+        require: "^searchSearches",
+        scope: {
+            label: "@",
+            key: "@",
+            active: "=default"
         },
-        link : function(scope:any, element : any, attrs : any, ctrl : any) {
+        link : function(scope:any, element: any, attrs: any, ctrl: any) {
             ctrl.add(scope); 
         }
     };
-});
+})
     
+.factory('searchService', [function() {
+    var searches: any = {};
+    var service: any = {};
+    
+    service.getSearches = function() {
+      return searches;  
+    };
+    
+    return service;
+}]);
+   
 }
