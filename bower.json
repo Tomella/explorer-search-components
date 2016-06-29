@@ -32,6 +32,6 @@
   ],
   "dependencies": {
     "ga-explorer-ui-components": "ssh://git@github.com/GeoscienceAustralia/explorer-ui-components.git#master",
-    "angular": "1.4.7"
+    "angular": "1.4.12"
   }
 }
