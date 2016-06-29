@@ -59,11 +59,11 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
         require: "^searchSearches",
         scope: {
             label: "@",
-            key: "@",
-            active: "=default"
+            key: "@"
         },
         link : function(scope:any, element: any, attrs: any, ctrl: any) {
-            ctrl.add(scope); 
+           scope.active = !!attrs.default;
+           ctrl.add(scope); 
         }
     };
 })
