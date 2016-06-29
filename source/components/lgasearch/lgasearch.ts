@@ -76,7 +76,7 @@ angular.module("exp.search.lgasearch", [])
 function LgasearchServiceProvider() : any {
     var statesUrl:string = "service/lgasearch/states",
         lgasUrl:string = "service/lgasearch/lgas",
-        lgaShapeUrl:string = "/explorer-cossap-services/service/lgasearch/lga/",
+        lgaShapeUrl:string = "service/lgasearch/lga/",
         lgaData:any = {},
         lgaTimeout:any,
         lgaLayer:any,

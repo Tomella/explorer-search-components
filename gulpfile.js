@@ -99,8 +99,8 @@ gulp.task('copyToWells', function() {
 // This task can be set up to do running integration testing.
 //    gulp.src(['dist/searches.js', 'dist/searches-leaflet.js'])
 //        .pipe(gulp.dest('../explorer-wells-surveys/src/main/webapp/bower_components/explorer-search-components/dist'))
-//    gulp.src(['dist/searches.js', 'dist/searches-cesium.js'])
-//        .pipe(gulp.dest('../explorer-cossap/src/main/webapp/bower_components/explorer-search-components/dist'))
+    gulp.src(['dist/searches.js', 'dist/searches-cesium.js'])
+        .pipe(gulp.dest('../explorer-cossap/src/main/webapp/bower_components/explorer-search-components/dist'))
 });
 
 gulp.task('concatCss', function () {
