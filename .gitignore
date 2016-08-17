@@ -10,3 +10,4 @@ docs
 typings
 tsconfig.json
 settings.json
+*.iml
