@@ -1,18 +1,5 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-module Searches {
-    export interface ISearchPerformed {
-        from: string;
-        type: string;
-        name: any;
-        pan(): void;
-        url?: string;
-        data?: GeoJSON.Feature;
-        show?: boolean;
-        polygon?: GeoJSON.Polygon;
-    }
-}
-
 
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)

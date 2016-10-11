@@ -431,6 +431,9 @@
     }
 })(angular);
 /// <reference path="../../../typings/index.d.ts" />
+/*
+ * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
+ */
 var explorer;
 (function (explorer) {
     var search;

@@ -4,25 +4,6 @@
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
 
-module Searches {
-
-    export interface ISearchMapService {
-        goTo(polygon: GeoJSON.Polygon): void;
-    }
-
-    export interface ISearchPerformed {
-        from: string;
-        type: string;
-        name: any;
-        pan(): void;
-        url?: string;
-        data?: GeoJSON.Feature;
-        show?: boolean;
-        polygon?: GeoJSON.Polygon;
-    }
-
-}
-
 module explorer.search {
 'use strict';
 
