@@ -4,7 +4,7 @@
   * @link http://www.ga.gov.au/
   * @license Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
   */
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
@@ -116,7 +116,7 @@
             }];
     }
 })(angular);
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 (function (angular, google) {
     'use strict';
     angular.module('exp.search.geosearch', ['ngAutocomplete'])
@@ -140,7 +140,7 @@
                                     type: 'Feature',
                                     geometry: {
                                         type: 'Point',
-                                        coordinates: [results.lat, results.lon],
+                                        coordinates: [results.lat, results.lon]
                                     },
                                     properties: {
                                         name: results.address
@@ -222,7 +222,7 @@
             };
         }]);
 })(angular, google);
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
@@ -232,8 +232,8 @@
      * Wiring
      */
     angular.module('exp.search.lastsearch', [])
-        .directive('expLastSearch', ['$document', 'lastSearchService',
-        function ($document, lastSearchService) {
+        .directive('expLastSearch', ['$document', 'lastSearchService', '$rootScope',
+        function ($document, lastSearchService, $rootScope) {
             return {
                 restrict: 'AE',
                 transclude: true,
@@ -253,6 +253,7 @@
                         scope.data.search.pan();
                     };
                     scope.close = function () {
+                        $rootScope.$broadcast('search.cleared');
                         lastSearchService.clear();
                     };
                     function keyupHandler(keyEvent) {
@@ -316,79 +317,7 @@
                 }];
         }]);
 })(angular);
-/// <reference path="../../../typings/tsd.d.ts" />
-/*
- * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
- */
-var explorer;
-(function (explorer) {
-    var search;
-    (function (search) {
-        'use strict';
-        angular.module("exp.search.searches", ['exp.search.lastsearch'])
-            .directive('searchSearches', ['searchService', function (searchService) {
-                return {
-                    restrict: "AE",
-                    replace: true,
-                    transclude: true,
-                    templateUrl: 'searches/searches/searches.html',
-                    scope: {
-                        name: "@"
-                    },
-                    controller: ['$scope', function ($scope) {
-                            $scope.state = {
-                                showSearchButton: true,
-                                searches: []
-                            };
-                            $scope.switch = function (data) {
-                                activate(data);
-                            };
-                            this.add = function (data) {
-                                console.log("Adding");
-                                $scope.state.searches.push(data);
-                            };
-                            this.active = function (data) {
-                                activate(data);
-                            };
-                            function activate(data) {
-                                $scope.state.searches.forEach(function (item) {
-                                    item.active = false;
-                                });
-                                data.active = true;
-                                if ($scope.name) {
-                                    searchService.getSearches()[$scope.name] = data;
-                                }
-                            }
-                        }]
-                };
-            }])
-            .directive('searchSearch', function () {
-            return {
-                //replace : true,
-                template: "<div ng-transclude ng-show='active'></div>",
-                transclude: true,
-                require: "^searchSearches",
-                scope: {
-                    label: "@",
-                    key: "@"
-                },
-                link: function (scope, element, attrs, ctrl) {
-                    scope.active = !!attrs.default;
-                    ctrl.add(scope);
-                }
-            };
-        })
-            .factory('searchService', [function () {
-                var searches = {};
-                var service = {};
-                service.getSearches = function () {
-                    return searches;
-                };
-                return service;
-            }]);
-    })(search = explorer.search || (explorer.search = {}));
-})(explorer || (explorer = {}));
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
@@ -501,10 +430,82 @@ var explorer;
             }];
     }
 })(angular);
+/// <reference path="../../../typings/index.d.ts" />
+/*
+ * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
+ */
+var explorer;
+(function (explorer) {
+    var search;
+    (function (search) {
+        'use strict';
+        angular.module("exp.search.searches", ['exp.search.lastsearch'])
+            .directive('searchSearches', ['searchService', function (searchService) {
+                return {
+                    restrict: "AE",
+                    replace: true,
+                    transclude: true,
+                    templateUrl: 'searches/searches/searches.html',
+                    scope: {
+                        name: "@"
+                    },
+                    controller: ['$scope', function ($scope) {
+                            $scope.state = {
+                                showSearchButton: true,
+                                searches: []
+                            };
+                            $scope.switch = function (data) {
+                                activate(data);
+                            };
+                            this.add = function (data) {
+                                console.log("Adding");
+                                $scope.state.searches.push(data);
+                            };
+                            this.active = function (data) {
+                                activate(data);
+                            };
+                            function activate(data) {
+                                $scope.state.searches.forEach(function (item) {
+                                    item.active = false;
+                                });
+                                data.active = true;
+                                if ($scope.name) {
+                                    searchService.getSearches()[$scope.name] = data;
+                                }
+                            }
+                        }]
+                };
+            }])
+            .directive('searchSearch', [function () {
+                return {
+                    //replace : true,
+                    template: "<div ng-transclude ng-show='active'></div>",
+                    transclude: true,
+                    require: "^searchSearches",
+                    scope: {
+                        label: "@",
+                        key: "@"
+                    },
+                    link: function (scope, element, attrs, ctrl) {
+                        scope.active = !!attrs.default;
+                        ctrl.add(scope);
+                    }
+                };
+            }])
+            .factory('searchService', [function () {
+                var searches = {};
+                var service = {};
+                service.getSearches = function () {
+                    return searches;
+                };
+                return service;
+            }]);
+    })(search = explorer.search || (explorer.search = {}));
+})(explorer || (explorer = {}));
 angular.module("exp.search.templates", []).run(["$templateCache", function ($templateCache) {
         $templateCache.put("searches/basinsearch/basinsearch.html", "<div class=\"btn-group pull-left radSearch\" style=\"position:relative;width:27em;opacity:0.9\">\r\n	<div class=\"input-group\" style=\"width:100%;\">\r\n		<input type=\"text\" size=\"32\" class=\"form-control\" style=\"border-top-right-radius:4px;border-bottom-right-radius:4px;\" \r\n				ng-keyup=\"keyup($event)\" ng-focus=\"changing()\" ng-model=\"nameFilter\" placeholder=\"Find a basin of interest\">\r\n		<div class=\"input-group-btn\"></div>\r\n	</div>\r\n	<div style=\"width:26em; position:absolute;left:15px\">	\r\n		<div class=\"row\" ng-repeat=\"region in basinData.basins | basinFilterList : nameFilter : 10 | orderBy : \'name\'\" \r\n				style=\"background-color:white;\">\r\n			<div class=\"col-md-12 rw-sub-list-trigger\">\r\n				<button class=\"undecorated zoomButton\" ng-click=\"zoomToLocation(region);\">{{region.name}}</button>\r\n			</div>	\r\n		</div>\r\n	</div>\r\n</div>");
         $templateCache.put("searches/geosearch/geosearch.html", "<div class=\"btn-group pull-left radSearch\" style=\"width:27em;opacity:0.9\">\r\n	<div class=\"input-group\">\r\n		<input type=\"text\" ng-autocomplete ng-model=\"values.from.description\" options=\'{country:\"au\"}\'\r\n					size=\"32\" title=\"Select a locality to pan the map to.\" class=\"form-control\" aria-label=\"...\">\r\n		<div class=\"input-group-btn\">\r\n			<button ng-click=\"zoom(false)\" exp-ga=\"[\'send\', \'event\', \'radwaste\', \'click\', \'zoom to location\']\"\r\n				class=\"btn btn-default\"\r\n				title=\"Pan and potentially zoom to location.\"><i class=\"fa fa-search\"></i></button>\r\n		</div>\r\n	</div>\r\n</div>");
         $templateCache.put("searches/lastsearch/lastsearch.html", "<div style=\"padding:3px;padding-left:10px;position:relative\" ng-class-even=\"\'even\'\" ng-class-odd=\"\'active\'\">\r\n	<div class=\"pull-left\">\r\n			<div style=\"font-size:120%;padding-bottom:7px\">Result from: {{data.search.from}}</div>\r\n			<div ng-if=\"data.search.type == \'GeoJSONPoint\'\">\r\n				{{data.search.name}} (Lat {{data.search.data.geometry.coordinates[0] | number : 5}}&#176; Lng  {{data.search.data.geometry.coordinates[1] | number : 5}}&#176;)\r\n			</div>\r\n			<div ng-if=\"data.search.type == \'GeoJSONUrl\'\">\r\n				{{data.search.name}} \r\n			</div>\r\n			<div class=\"pull-right\">\r\n				<button class=\"undecorated\" ng-click=\"dismiss()\">\r\n					<i class=\"fa fa-cross\"></i>\r\n				</button>\r\n			</div>\r\n	</div>\r\n	<div style=\"padding-left:10px\" class=\"pull-right\">\r\n		<button class=\"undecorated\" class=\"featureLink\" title=\"Show on map\" \r\n			ng-click=\"toggle()\"><i class=\"fa fa-lg\" ng-class=\"{\'fa-eye-slash\':(!data.search.displayed), \'fa-eye\':data.search.displayed}\"></i></button>\r\n		<button class=\"undecorated\" class=\"featureLink\" title=\"Pan map to region\" \r\n			ng-click=\"pan()\"><i class=\"fa fa-flag fa-lg\"></i></button>							\r\n		<button class=\"undecorated\" class=\"featureLink\" title=\"Clear search/New search\" \r\n			ng-click=\"close()\"><i class=\"fa fa-close fa-lg\"></i></button>							\r\n	</div>\r\n</div>\r\n");
-        $templateCache.put("searches/searches/searches.html", "<div class=\"searchesContainer\">\r\n	<div ng-hide=\"data.search\">\r\n		<span class=\"searchesItems\" ng-transclude></span>\r\n		<span class=\"dropdown clearfix\">\r\n			<div class=\"btn-group\" role=\"group\">\r\n				<div class=\"btn-group\" role=\"group\">\r\n					<button class=\"btn btn-default dropdown-toggle\" type=\"button\" id=\"searchesDropdownMenu3\" \r\n							tooltip=\"Change search type\" tooltip-append-to-body=\"true\"\r\n							data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\r\n		      			<i class=\"fa fa-align-justify\"></i>\r\n   					</button>\r\n   					<ul class=\"dropdown-menu\" aria-labelledby=\"searchesDropdownMenu3\">\r\n	    	    		<li ng-repeat=\"search in state.searches\"><button class=\"undecorated\" ng-click=\"switch(search)\" ng-class=\"{searchesStrong:search.active}\">{{search.label}}</button></li>\r\n   					</ul>\r\n   				</div>\r\n   			</div>\r\n		</span>\r\n	</div>\r\n	<div class=\"searchesLastSearchContainer\" exp-last-search ng-show=\"data.search\"></div>\r\n</div>");
         $templateCache.put("searches/lgasearch/lgasearch.html", "<div class=\"btn-group pull-left radSearch\" style=\"position:relative;width:27em;opacity:0.9\">\r\n	<div class=\"input-group\" style=\"width:100%;\">\r\n		<input type=\"text\" size=\"32\" class=\"form-control\" style=\"border-top-right-radius:4px;border-bottom-right-radius:4px;\" \r\n				ng-keyup=\"keyup($event)\" ng-focus=\"changing()\" ng-model=\"nameFilter\" placeholder=\"Find a state or local government area\">\r\n		<div class=\"input-group-btn\"></div>\r\n	</div>\r\n	<div style=\"width:26em; position:absolute;left:15px\">	\r\n		<div class=\"lgaLists\">\r\n			<div class=\"row stateList includeMe\" ng-repeat=\"state in lgaData.states | lgaFilterList : nameFilter | orderBy : \'name\'\" \r\n					style=\"background-color:white;\">\r\n				<div class=\"col-md-12 \">\r\n					<button class=\"undecorated zoomButton\" ng-click=\"zoomToLocation(state);\">{{state.name}}</button>\r\n				</div>\r\n			</div>	\r\n		</div>\r\n		<div class=\"row\" ng-repeat=\"region in lgaData.lgas | lgaFilterList : nameFilter : 10 | orderBy : \'name\'\" \r\n				style=\"background-color:white;\">\r\n			<div class=\"col-md-12 rw-sub-list-trigger\">\r\n				<button class=\"undecorated zoomButton\" ng-click=\"zoomToLocation(region);\">{{region.name}}</button>\r\n			</div>	\r\n		</div>\r\n	</div>\r\n</div>");
+        $templateCache.put("searches/searches/searches.html", "<div class=\"searchesContainer\">\r\n	<div ng-hide=\"data.search\">\r\n		<span class=\"searchesItems\" ng-transclude></span>\r\n		<span class=\"dropdown clearfix\">\r\n			<div class=\"btn-group\" role=\"group\">\r\n				<div class=\"btn-group\" role=\"group\">\r\n					<button class=\"btn btn-default dropdown-toggle\" type=\"button\" id=\"searchesDropdownMenu3\" \r\n							tooltip=\"Change search type\" tooltip-append-to-body=\"true\"\r\n							data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\r\n		      			<i class=\"fa fa-align-justify\"></i>\r\n   					</button>\r\n   					<ul class=\"dropdown-menu\" aria-labelledby=\"searchesDropdownMenu3\">\r\n	    	    		<li ng-repeat=\"search in state.searches\"><button class=\"undecorated\" ng-click=\"switch(search)\" ng-class=\"{searchesStrong:search.active}\">{{search.label}}</button></li>\r\n   					</ul>\r\n   				</div>\r\n   			</div>\r\n		</span>\r\n	</div>\r\n	<div class=\"searchesLastSearchContainer\" exp-last-search ng-show=\"data.search\"></div>\r\n</div>");
     }]);

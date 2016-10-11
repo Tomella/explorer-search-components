@@ -1,0 +1,10 @@
+{
+  "name": "ExplorerSearches",
+  "globalDependencies": {
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#473d37ca81c8d572d90925887baf5c619465c9a3",
+    "d3": "github:DefinitelyTyped/DefinitelyTyped/d3/d3.d.ts#b27d0d0e1ce4207a7a5b1da847cb776c16d7531e",
+    "geojson": "github:DefinitelyTyped/DefinitelyTyped/geojson/geojson.d.ts#fc341765ebbb04b7109981a25dced01f488f4d94",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#473d37ca81c8d572d90925887baf5c619465c9a3",
+    "searches": "file:typings/shared/searches/searches.d.ts"
+  }
+}
