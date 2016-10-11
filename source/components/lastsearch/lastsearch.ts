@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
@@ -23,8 +23,8 @@ interface LastSearchData {
  */
 angular.module('exp.search.lastsearch', [])
 
-.directive('expLastSearch', ['$document', 'lastSearchService',
-          function($document: any, lastSearchService: LastSearchService) {
+.directive('expLastSearch', ['$document', 'lastSearchService', '$rootScope',
+          function($document: any, lastSearchService: LastSearchService, $rootScope: any) {
   return {
     restrict : 'AE',
     transclude : true,
@@ -46,7 +46,8 @@ angular.module('exp.search.lastsearch', [])
         scope.data.search.pan();
       }
       
-      scope.close = function() {        
+      scope.close = function() {
+          $rootScope.$broadcast('search.cleared');
           lastSearchService.clear();
       }
       

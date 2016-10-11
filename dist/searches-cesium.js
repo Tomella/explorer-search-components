@@ -4,7 +4,7 @@
   * @link http://www.ga.gov.au/
   * @license Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
   */
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 /**
  * This package is to handle the artefacts produced by the search events indirectly.
  * There is no reason that it could be used for other like packages.
@@ -93,7 +93,7 @@ var CesiumDrawing;
             return !this.primitiveCollection;
         };
         return GeoJsonDraper;
-    })();
+    }());
     CesiumDrawing.GeoJsonDraper = GeoJsonDraper;
     var MapLabel = (function () {
         function MapLabel(viewer, data, options) {
@@ -140,7 +140,7 @@ var CesiumDrawing;
             this.erase();
         };
         return MapLabel;
-    })();
+    }());
     CesiumDrawing.MapLabel = MapLabel;
 })(CesiumDrawing || (CesiumDrawing = {}));
 (function (angular) {

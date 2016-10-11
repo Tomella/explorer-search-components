@@ -1,8 +1,21 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
+
+module Searches {
+    export interface ISearchPerformed {
+        from: string;
+        type: string;
+        name: any;
+        pan(): void;
+        url?: string;
+        data?: GeoJSON.Feature;
+        show?: boolean;
+        polygon?: GeoJSON.Polygon;
+    }
+}
 
 
 declare var Cesium: any;

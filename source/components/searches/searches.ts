@@ -1,9 +1,27 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
 
+module Searches {
+
+    export interface ISearchMapService {
+        goTo(polygon: GeoJSON.Polygon): void;
+    }
+
+    export interface ISearchPerformed {
+        from: string;
+        type: string;
+        name: any;
+        pan(): void;
+        url?: string;
+        data?: GeoJSON.Feature;
+        show?: boolean;
+        polygon?: GeoJSON.Polygon;
+    }
+
+}
 
 module explorer.search {
 'use strict';
@@ -51,7 +69,7 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
     };
 }]) 
 
-.directive('searchSearch', function() {
+.directive('searchSearch', [function() {
     return {
         //replace : true,
         template:"<div ng-transclude ng-show='active'></div>",
@@ -66,7 +84,7 @@ angular.module("exp.search.searches", ['exp.search.lastsearch'])
            ctrl.add(scope); 
         }
     };
-})
+}])
     
 .factory('searchService', [function() {
     var searches: any = {};

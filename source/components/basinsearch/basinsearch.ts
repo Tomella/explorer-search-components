@@ -1,9 +1,8 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 /*
  * Copyright 2015 Geoscience Australia (http://www.ga.gov.au/copyright.html)
  */
-
 
 (function(angular: ng.IAngularStatic) {
 
