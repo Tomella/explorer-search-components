@@ -19,7 +19,7 @@
   "authors": [
     "Geoscience Australia"
   ],
-  "ignore": [
+ "ignore": [
     "**/.*",
     "node_modules",
     "src",
