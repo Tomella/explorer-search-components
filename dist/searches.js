@@ -189,8 +189,10 @@
             };
         }])
         .factory('googleService', ['$log', '$q', function ($log, $q) {
-            var geocoder = new google.maps.Geocoder(), service;
+            var geocoder, service;
             try {
+                geocoder = new google.maps.Geocoder();
+                ig;
                 service = new google.maps.places.AutocompleteService(null, {
                     types: ['geocode']
                 });
