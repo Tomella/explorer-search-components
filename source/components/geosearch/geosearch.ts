@@ -99,7 +99,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
 .factory('googleService', ['$log', '$q', function($log : any, $q : any) {
     var geocoder:any, service:any;
     try {
-        geocoder = new google.maps.Geocoder();ig
+        geocoder = new google.maps.Geocoder();
         service = new google.maps.places.AutocompleteService(null, {
                         types: ['geocode']
                     });

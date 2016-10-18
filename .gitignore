@@ -11,3 +11,4 @@ typings
 tsconfig.json
 settings.json
 *.iml
+npm-debug*

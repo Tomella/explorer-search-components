@@ -192,7 +192,6 @@
             var geocoder, service;
             try {
                 geocoder = new google.maps.Geocoder();
-                ig;
                 service = new google.maps.places.AutocompleteService(null, {
                     types: ['geocode']
                 });
@@ -387,7 +386,7 @@
         this.setShapeUrl = function (url) {
             lgaShapeUrl = url;
         };
-        this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService', function lgaServiceFactory($q, $rootScope, $timeout, httpData, searchMapService) {
+        this.$get = ['$q', '$scope', '$rootScope', '$timeout', 'httpData', 'searchMapService', function lgaServiceFactory($q, $scope, $rootScope, $timeout, httpData, searchMapService) {
                 var service = {
                     load: function () {
                         httpData.get(lgasUrl, { cache: true }).then(function (response) {
@@ -399,33 +398,54 @@
                         return $q.when(lgaData);
                     },
                     zoomToLocation: function (region) {
-                        var bbox = region.bbox;
-                        var polygon = {
-                            type: "Polygon",
-                            coordinates: [[
-                                    [bbox.xMin, bbox.yMin],
-                                    [bbox.xMin, bbox.yMax],
-                                    [bbox.xMax, bbox.yMax],
-                                    [bbox.xMax, bbox.yMin],
-                                    [bbox.xMin, bbox.yMin]
-                                ]]
-                        };
-                        var broadcastData = {
-                            from: "LGA search",
-                            type: "GeoJSONUrl",
-                            url: lgaShapeUrl + region.id + '/geojson',
-                            pan: pan,
-                            show: true,
-                            name: region.name,
-                            polygon: polygon
-                        };
-                        if (region.id) {
-                            $rootScope.$broadcast('search.performed', broadcastData);
-                        }
-                        pan();
-                        function pan() {
-                            searchMapService.goTo(polygon);
-                        }
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({ address: region.name, region: "au" }, function (results, status) {
+                            if (status != google.maps.GeocoderStatus.OK) {
+                                console.log("No result found");
+                            }
+                            else {
+                                var lat = results[0].geometry.location.lat();
+                                var lon = results[0].geometry.location.lng();
+                                var feature = {
+                                    type: 'Feature',
+                                    geometry: {
+                                        type: 'Point',
+                                        coordinates: [lat, lon]
+                                    },
+                                    properties: {
+                                        name: null
+                                    }
+                                };
+                                var bbox = region.bbox;
+                                var polygon = {
+                                    type: "Polygon",
+                                    coordinates: [[
+                                            [bbox.xMin, bbox.yMin],
+                                            [bbox.xMin, bbox.yMax],
+                                            [bbox.xMax, bbox.yMax],
+                                            [bbox.xMax, bbox.yMin],
+                                            [bbox.xMin, bbox.yMin]
+                                        ]]
+                                };
+                                var broadcastData = {
+                                    from: "LGA search",
+                                    type: "GeoJSONUrl",
+                                    url: lgaShapeUrl + region.id + '/geojson',
+                                    pan: pan,
+                                    show: true,
+                                    name: region.name,
+                                    polygon: polygon,
+                                    data: feature
+                                };
+                                if (region.id) {
+                                    $rootScope.$broadcast('search.performed', broadcastData);
+                                }
+                                pan();
+                                function pan() {
+                                    searchMapService.goTo(polygon);
+                                }
+                            }
+                        });
                     }
                 };
                 return service;
