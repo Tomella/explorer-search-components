@@ -92,7 +92,7 @@ function LgasearchServiceProvider() : any {
         lgaShapeUrl = url;
     };  
     
-    this.$get = ['$q', '$rootScope', '$timeout', 'httpData', 'searchMapService', function lgaServiceFactory($q:any, $rootScope:any, $timeout:any, httpData:any, searchMapService:any) {
+    this.$get = ['$q', '$scope','$rootScope', '$timeout', 'httpData', 'searchMapService', function lgaServiceFactory($q:any,$scope:any, $rootScope:any, $timeout:any, httpData:any, searchMapService:any) {
         var service:any = {
             load : function() {
                 httpData.get(lgasUrl, {cache : true}).then(function(response:any) {
@@ -105,37 +105,59 @@ function LgasearchServiceProvider() : any {
                 return $q.when(lgaData);
             },
             
-            zoomToLocation : function(region:any) {                
-                var bbox:any = region.bbox;
-                
-				var polygon: GeoJSON.Polygon = {
-					type: "Polygon",
-					coordinates: [[
-						[bbox.xMin, bbox.yMin],
-						[bbox.xMin, bbox.yMax],
-						[bbox.xMax, bbox.yMax],
-						[bbox.xMax, bbox.yMin],
-						[bbox.xMin, bbox.yMin]
-					]]
-				};
-                
-                var broadcastData: Searches.ISearchPerformed = {
-                   from: "LGA search",
-                   type: "GeoJSONUrl",
-                   url: lgaShapeUrl + region.id + '/geojson',
-			 	   pan: pan,
-			       show: true,
-                   name: region.name,
-                   polygon: polygon
-			    };
-                
-                if(region.id) {
-                    $rootScope.$broadcast('search.performed', broadcastData);
-                }
-                pan();
-                function pan() {
-                    searchMapService.goTo(polygon);
-                }
+            zoomToLocation : function(region:any) {
+                var geocoder:any = new google.maps.Geocoder();
+                geocoder.geocode({ address: region.name, region: "au" }, function(results:any, status:any) {
+                    if (status != google.maps.GeocoderStatus.OK) {
+                        console.log("No result found")
+                    } else {
+                      var  lat=results[0].geometry.location.lat();
+                      var  lon=results[0].geometry.location.lng();
+                        var feature: GeoJSON.Feature = {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [lat, lon]
+                            },
+                            properties: {
+                                name: null
+                            }
+                        };
+                        var bbox:any = region.bbox;
+
+                        var polygon: GeoJSON.Polygon = {
+                            type: "Polygon",
+                            coordinates: [[
+                                [bbox.xMin, bbox.yMin],
+                                [bbox.xMin, bbox.yMax],
+                                [bbox.xMax, bbox.yMax],
+                                [bbox.xMax, bbox.yMin],
+                                [bbox.xMin, bbox.yMin]
+                            ]]
+                        };
+
+                        var broadcastData: Searches.ISearchPerformed = {
+                            from: "LGA search",
+                            type: "GeoJSONUrl",
+                            url: lgaShapeUrl + region.id + '/geojson',
+                            pan: pan,
+                            show: true,
+                            name: region.name,
+                            polygon: polygon,
+                            data:feature
+                        };
+
+                        if(region.id) {
+                            $rootScope.$broadcast('search.performed', broadcastData);
+                        }
+                        pan();
+                        function pan() {
+                            searchMapService.goTo(polygon);
+                        }
+
+                    }
+                });
+
             }
         };  
         return service;

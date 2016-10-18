@@ -43,7 +43,7 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                         type: 'Feature',
                         geometry: {
                             type: 'Point',
-                            coordinates: [results.lat, results.lon],
+                            coordinates: [results.lat, results.lon]
                         },
                         properties: {
                             name: results.address
