@@ -75,6 +75,10 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
 						]]
 					};
 
+                    function pan() {
+                        searchMapService.goTo(polygon);
+                    }
+
                     $log.debug('Received the results for from');
                     $scope.values.from.results = results;
                     if(results) {
@@ -84,10 +88,6 @@ angular.module('exp.search.geosearch', ['ngAutocomplete'])
                     // Hide the dialog.
                     $scope.item = '';
                     return results;
-
-                    function pan() {
-                        searchMapService.goTo(polygon);
-                    }
                 }, function(error:any) {
                     $log.debug('Failed to complete the from lookup.');
                 })
