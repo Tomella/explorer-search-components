@@ -30,7 +30,7 @@
     "bower.json"
   ],
   "dependencies": {
-    "ga-explorer-ui-components": "https://bitbucket.org/geoscienceaustralia/explorer-ui-components.git#master",
+    "ga-explorer-ui-components": "https://github.com/Tomella/explorer-ui-components.git#master",
     "angular": "1.4.12"
   }
 }
